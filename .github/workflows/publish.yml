@@ -14,8 +14,9 @@ jobs:
 
       - name: Get latest release tag
         id: latest_tag
+        # latest_tag=$(gh api repos/${{ github.repository }}/releases/latest --jq '.tag_name')
         run: |
-          latest_tag=$(gh api repos/${{ github.repository }}/releases/latest --jq '.tag_name')
+          latest_tag=$(gh release view --json tagName -q ".tagName")
           echo "Latest release tag: $latest_tag"
           echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
 
