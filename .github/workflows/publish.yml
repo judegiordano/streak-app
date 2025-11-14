@@ -26,13 +26,6 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: check version update
-        run: |
-          if [[ "${{ github.event.inputs.version_bump }}" != "true" ]]; then
-            echo "Error: You must increment tauri.conf.json version"
-            exit 1
-          fi
-
       - name: setup node
         uses: actions/setup-node@v4
         with:
