@@ -4,7 +4,41 @@ on:
   workflow_dispatch:
 
 jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Get latest release tag
+        id: latest_tag
+        run: |
+          latest_tag=$(gh api repos/${{ github.repository }}/releases/latest --jq '.tag_name')
+          echo "Latest release tag: $latest_tag"
+          echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
+
+      - name: Read version from tauri.conf.json
+        id: tauri_version
+        run: |
+          version=$(jq -r '.version' src-tauri/tauri.conf.json)
+          echo "Tauri config version: $version"
+          echo "tauri_version=$version" >> $GITHUB_OUTPUT
+
+      - name: Compare versions
+        run: |
+          tauri_tag="app-v${{ steps.tauri_version.outputs.tauri_version }}"
+          echo "Checking if $tauri_tag matches latest release tag ${{ steps.latest_tag.outputs.latest_tag }}"
+          if [[ "$tauri_tag" == "${{ steps.latest_tag.outputs.latest_tag }}" ]]; then
+            echo "Error: tauri.conf.json version matches the latest release tag. PLease increment app version."
+            exit 1
+          else
+            echo "Publishing artifact."
+          fi
+
   publish:
+    needs: [check-version]
     permissions:
       contents: write
     strategy:
