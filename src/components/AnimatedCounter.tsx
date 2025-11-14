@@ -1,10 +1,10 @@
 import { motion, AnimatePresence } from 'framer-motion'
 
 type AnimatedCounterProps = {
-	value: string | number;
-	duration?: number;
-	className?: string;
-};
+	value: string | number
+	duration?: number
+	className?: string
+}
 
 export function AnimatedCounter({
 	value,
@@ -29,7 +29,10 @@ export function AnimatedCounter({
 	)
 }
 
-function Digit({ value, duration }: { value: string; duration: number }) {
+function Digit({ value, duration }: {
+	value: string
+	duration: number
+}) {
 	return (
 		<div className="relative w-[1ch] h-[1em] overflow-hidden">
 			<AnimatePresence mode="popLayout">
@@ -52,8 +55,8 @@ function Punctuation({
 	value,
 	duration,
 }: {
-	value: string;
-	duration: number;
+	value: string
+	duration: number
 }) {
 	return (
 		<div className="relative w-[1ch] h-[1em] overflow-hidden">
