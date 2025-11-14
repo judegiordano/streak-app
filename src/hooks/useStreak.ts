@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { invokeGetStreak } from "../invocations";
-import { Streak } from "../types";
+import type { Streak } from "../types";
 
 export function useStreak() {
     const [streak, setStreak] = useState<Streak | null>(null);
