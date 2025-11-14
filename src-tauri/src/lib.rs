@@ -24,7 +24,7 @@ pub struct MyConfig {
 impl Default for MyConfig {
     fn default() -> Self {
         MyConfig {
-            streak: 1,
+            streak: 0,
             longest_streak: 0,
             last_streak_date: Local::now(),
         }
