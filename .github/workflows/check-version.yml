@@ -1,0 +1,30 @@
+name: 'check version'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check_app_version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Ensure Tauri version has changed
+        run: |
+          # Get current version from this commit
+          CURRENT_VERSION=$(jq -r '.version' src-tauri/tauri.conf.json)
+
+          # Get previous version from main branch
+          PREV_VERSION=$(git show origin/main:src-tauri/tauri.conf.json | jq -r '.version' || echo "none")
+
+          echo "Previous version: $PREV_VERSION"
+          echo "Current version:  $CURRENT_VERSION"
+
+          if [ "$CURRENT_VERSION" == "$PREV_VERSION" ]; then
+            echo "ERROR: Tauri version has NOT changed. Please bump the version in tauri.conf.json."
+            exit 1
+          else
+            echo "Version has changed: $PREV_VERSION -> $CURRENT_VERSION"
+          fi
