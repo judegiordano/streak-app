@@ -1,4 +1,4 @@
-name: 'publish'
+name: "publish"
 
 on:
   workflow_dispatch:
@@ -45,14 +45,14 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: 'macos-latest'
-            args: '--target aarch64-apple-darwin'
-          - platform: 'macos-latest'
-            args: '--target x86_64-apple-darwin'
-          - platform: 'ubuntu-22.04'
-            args: ''
-          - platform: 'windows-latest'
-            args: ''
+          - platform: "macos-latest"
+            args: "--target aarch64-apple-darwin"
+          - platform: "macos-latest"
+            args: "--target x86_64-apple-darwin"
+          - platform: "ubuntu-22.04"
+            args: ""
+          - platform: "windows-latest"
+            args: ""
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -72,7 +72,7 @@ jobs:
       - name: Rust cache
         uses: swatinem/rust-cache@v2
         with:
-          workspaces: './src-tauri -> target'
+          workspaces: "./src-tauri -> target"
 
       - name: install dependencies (ubuntu-22.04 only)
         if: matrix.platform == 'ubuntu-22.04' # This must match the platform value defined above.
@@ -92,8 +92,8 @@ jobs:
       - uses: tauri-apps/tauri-action@v0
         with:
           tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
-          releaseName: 'Streak App v__VERSION__'
-          releaseBody: 'See the assets to download this version and install.'
+          releaseName: "Streak App v__VERSION__"
+          releaseBody: "See the assets to download this version and install."
           releaseDraft: false
           prerelease: false
           args: ${{ matrix.args }}

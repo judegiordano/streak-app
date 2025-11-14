@@ -1,26 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect } from 'react'
 
-import { invokeGetStreak } from "../invocations";
-import type { Streak } from "../types";
+import { invokeGetStreak } from '../invocations'
+import { useStreakStore } from '../stores/streak'
 
 export function useStreak() {
-    const [streak, setStreak] = useState<Streak | null>(null);
+	const setStreak = useStreakStore(state => state.setStreak)
+	const streak = useStreakStore(state => state.streak)
 
-    async function getStreak() {
-        const streak = await invokeGetStreak()
-        setStreak(streak)
-    }
+	async function getStreak() {
+		const streak = await invokeGetStreak()
+		setStreak(streak)
+	}
 
-    useEffect(() => {
-        getStreak();
-        const id = setInterval(() => {
-            getStreak();
-        }, 1_000);
+	useEffect(() => {
+		getStreak()
+		const id = setInterval(() => {
+			getStreak()
+		}, 1_000)
 
-        return () => clearInterval(id);
-    }, []);
+		return () => clearInterval(id)
+	}, [])
 
-    return {
-        streak
-    }
+	return {
+		streak
+	}
 }

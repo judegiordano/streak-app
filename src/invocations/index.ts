@@ -1,5 +1,5 @@
-import { invoke } from "@tauri-apps/api/core";
+import { invoke } from '@tauri-apps/api/core'
 
-import type { Streak } from "../types";
+import type { Streak } from '../types'
 
-export const invokeGetStreak = () => invoke<Streak>("get_streak")
+export const invokeGetStreak = () => invoke<Streak>('get_streak')

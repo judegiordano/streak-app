@@ -2,11 +2,10 @@
 
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: all;
+	themes: all;
 }
 
 @theme {
-  --font-press: "Press Start 2P", static;
-  --font-audiowide: "Audiowide", sans-serif;
+	--font-press: "Press Start 2P", static;
+	--font-audiowide: "Audiowide", sans-serif;
 }
-|
